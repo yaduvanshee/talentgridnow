@@ -11,7 +11,9 @@ gem "jbuilder"
 
 gem "sprockets-rails"
 
-gem "rswag"
+gem 'rswag-api'
+gem 'rswag-ui'
+gem 'rswag-specs'
 
 gem "bootsnap", require: false
 
