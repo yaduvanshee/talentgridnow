@@ -13,6 +13,6 @@ class Api::V1::ShortUrlsController < Api::V1::BaseController
   end
 
   def short_url_params
-    params.require(:short_url).permit(:original_url)
+    params.require(:short_url).permit(:original_url, :restrict_visit_count)
   end
 end

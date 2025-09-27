@@ -30,8 +30,12 @@ class ShortUrlsController < ApplicationController
 
   def redirect
     @short_url = ShortUrl.find_by!(slug: params[:slug])
-    @short_url.increment_visits!
-    redirect_to @short_url.original_url, allow_other_host: true
+    if @short_url.can_be_visited?
+      @short_url.increment_visits!
+      redirect_to @short_url.original_url, allow_other_host: true
+    else
+      render plain: "Short URL visit limit reached", status: :forbidden
+    end
   rescue ActiveRecord::RecordNotFound
     render plain: "Short URL not found", status: :not_found
   end
@@ -39,6 +43,6 @@ class ShortUrlsController < ApplicationController
   private
 
   def short_url_params
-    params.require(:short_url).permit(:original_url)
+    params.require(:short_url).permit(:original_url, :restrict_visit_count)
   end
 end

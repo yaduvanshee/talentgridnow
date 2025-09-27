@@ -9,6 +9,12 @@ class ShortUrl < ApplicationRecord
     reload
   end
 
+  def can_be_visited?
+    return true if restrict_visit_count.nil?
+
+    visits_count < restrict_visit_count
+  end
+
   private
 
   def generate_slug
